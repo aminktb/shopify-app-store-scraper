@@ -39,6 +39,7 @@ class PricingPlan(scrapy.Item):
     id = scrapy.Field()
     app_id = scrapy.Field()
     title = scrapy.Field()
+    subtitle = scrapy.Field()
     price = scrapy.Field()
 
 

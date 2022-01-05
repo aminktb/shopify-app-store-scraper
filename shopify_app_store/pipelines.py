@@ -54,7 +54,7 @@ class WriteToCSV(object):
                            'developer_reply_posted_at'])
         self.write_header('apps_categories.csv', ['app_id', 'category_id'])
         self.write_header('categories.csv', ['id', 'title'])
-        self.write_header('pricing_plans.csv', ['id', 'app_id', 'title', 'price'])
+        self.write_header('pricing_plans.csv', ['id', 'app_id', 'title', 'subtitle', 'price'])
         self.write_header('pricing_plan_features.csv', ['app_id', 'pricing_plan_id', 'feature'])
         self.write_header('key_benefits.csv', ['app_id', 'title', 'description'])
         return
