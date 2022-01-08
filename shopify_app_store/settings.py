@@ -65,9 +65,11 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'shopify_app_store.pipelines.WriteToCSV': 300,
+   'shopify_app_store.pipelines.MongoPipeline': 300,
 }
 
+MONGO_URI = 'mongodb://database:27017'
+MONGO_DATABASE = 'shopify_app_store_data'
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True

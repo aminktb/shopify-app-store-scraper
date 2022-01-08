@@ -6,6 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 import csv
+import pymongo
 from .items import App, KeyBenefit, PricingPlan, PricingPlanFeature, Category, AppCategory, AppReview
 
 
@@ -96,3 +97,29 @@ class WriteToCSV(object):
         with open('{}{}'.format(self.OUTPUT_DIR, file_name), 'a', encoding='utf-8') as out:
             csv_out = csv.writer(out)
             csv_out.writerow(row)
+
+
+class MongoPipeline(object):
+
+    def __init__(self, mongo_url, mongo_db):
+        self.mongo_url = mongo_url
+        self.mongo_db = mongo_db
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            mongo_url=crawler.settings.get('MONGO_URI'),
+            mongo_db=crawler.settings.get('MONGO_DATABASE')
+        )
+
+    def open_spider(self, spider):
+        self.client = pymongo.MongoClient(self.mongo_url)
+        self.db = self.client[self.mongo_db]
+
+    def close_spider(self, spider):
+        self.client.close()
+    
+    def process_item(self, item, spider):
+        collection_name = item.__class__.__name__.lower() + 's'
+        self.db[collection_name].insert_one(dict(item))
+        return item
